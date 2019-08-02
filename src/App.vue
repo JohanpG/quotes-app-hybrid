@@ -1,82 +1,30 @@
 <template>
-  <div id="app">
-    <ion-app>
-      <ion-menu side="start">
-        <ion-header>
-          <ion-toolbar color="translucent">
-            <ion-title>Menu</ion-title>
-          </ion-toolbar>
-        </ion-header>
-        <ion-content>
-          <ion-list>
-            <ion-item @click="navigate('/')">
-              <ion-icon name="home" slot="start"></ion-icon>
-              <ion-label>{{ $t('home') }}</ion-label>
-            </ion-item>
-            <ion-item @click="navigate('quotesList')" v-if="true" >
-              <ion-icon name="person" slot="start"></ion-icon>
-              <ion-label>{{ $t('profile') }}</ion-label>
-            </ion-item>
-            <ion-item @click="navigate('newQuote')">
-              <ion-icon name="add-circle" slot="start"></ion-icon>
-              <ion-label>{{ $t('newQuote') }}</ion-label>
-            </ion-item>
-            <ion-item @click="navigate('quotes')">
-              <ion-icon name="chatbubbles" slot="start"></ion-icon>
-              <ion-label>{{ $t('quotes') }}</ion-label>
-            </ion-item>
-            <ion-item @click="navigate('settings')">
-              <ion-icon name="settings" slot="start"></ion-icon>
-              <ion-label>{{ $t('settingsMainLabel') }}</ion-label>
-            </ion-item>
-          </ion-list>
-        </ion-content>
-      </ion-menu>
+  <ion-app>
+    <menu-left/>
+    <div class="ion-page" main>
+      <ion-header>
+        <ion-toolbar>
+          <ion-buttons slot="start">
+            <ion-menu-button></ion-menu-button>
+          </ion-buttons>
+          <ion-title>Quotes - App</ion-title>
+        </ion-toolbar>
+      </ion-header>
+      <ion-content>
+         <ion-vue-router />
+         <ion-menu-controller></ion-menu-controller>
+         <ion-modal-controller></ion-modal-controller>
+         <ion-popover-controller></ion-popover-controller>
+      </ion-content>
+    </div>
+  </ion-app>
 
-      <div class="ion-page" main>
-        <ion-header>
-          <ion-toolbar>
-            <ion-buttons slot="start">
-              <ion-menu-button></ion-menu-button>
-            </ion-buttons>
-            <ion-title>Quotes - App</ion-title>
-          </ion-toolbar>
-        </ion-header>
-        <ion-content>
-          <router-view/>
-        </ion-content>
-      </div>
-    </ion-app>
-    <ion-menu-controller></ion-menu-controller>
-  </div>
 </template>
 <script>
-  import i18n from '@/plugins/i18n'
+  import MenuLeft from "@/components/menus/MenuLeft";
   export default {
     name: 'App',
-    data () {
-      return {
-        languages: [
-            { flag: 'us', language: 'en', title: 'English' },
-            { flag: 'es', language: 'es', title: 'Español' }
-        ]
-      }
-    },
-    methods: {
-      openStart () {
-        document.querySelector('ion-menu-controller').open('start')
-      },
-      closeStart () {
-        document.querySelector('ion-menu-controller').close('start')
-      },
-      navigate: function(route) {
-        this.$router.push(route);
-        this.closeStart();
-      },
-      changeLocale(locale) {
-          i18n.locale = locale;
-      },
-    }
+    components: { MenuLeft }
   }
 </script>
 

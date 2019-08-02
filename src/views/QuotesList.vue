@@ -5,50 +5,53 @@
     <div class="spin" v-if="loading">
         <ion-spinner name="crescent"></ion-spinner>
     </div>
-    <ion-list  v-if="!loading">
-        <ion-list-header>
-          <h1>{{ $t('quotes') }}</h1>
-        </ion-list-header>
+    <ion-grid>
+        <ion-row>
+          <ion-col size="12" size-md>
+            <ion-button
+              expand="block"
+              @click="openModal"
+              >Modal</ion-button>
+          </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col size="12" size-md>
+          <ion-list  v-if="!loading">
+              <ion-list-header>
+                <h1>{{ $t('quotes') }}</h1>
+              </ion-list-header>
 
-        <ion-item v-for='(currentQuote, groupIndex) in allQuotes' :key="groupIndex">
-          <ion-avatar slot="start">
-            <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/812449/user-blue1.jpg">
-          </ion-avatar>
-          <ion-label>
-            <div class = 'quote-to' v-show= "currentQuote.to"  >
-              <h4>A {{ currentQuote.to }}</h4>
-            </div>
-              <p>{{ currentQuote.quote }} ... </p>
-            <div class = 'quote-author'>
-              <h4>- {{ currentQuote.author }}</h4>
-              <h5>  {{ currentQuote.date }}</h5>
-            </div>
-          </ion-label>
-        </ion-item>
-      </ion-list>
+              <ion-item v-for='(currentQuote, groupIndex) in groupedItems' :key="currentQuote._id">
+                <ion-avatar slot="start">
+                  <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/812449/user-blue1.jpg">
+                </ion-avatar>
+                <ion-label>
+                  <div class = 'quote-to' v-show= "currentQuote.to"  >
+                    <h4>A {{ currentQuote.to }}</h4>
+                  </div>
+                    <p>{{ currentQuote.quote }} ... </p>
+                  <div class = 'quote-author'>
+                    <h4>- {{ currentQuote.author }}</h4>
+                    <h5>  {{ currentQuote.date }}</h5>
+                  </div>
+                </ion-label>
+              </ion-item>
+            </ion-list>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+      <ion-infinite-scroll @ionInfinite="updatePage" threshold="100px" position="bottom">
+        <ion-infinite-scroll-content></ion-infinite-scroll-content>
+      </ion-infinite-scroll>
   </ion-content>
-  <br>
-  <b-pagination
-      v-model="paginationDetails.currentPage"
-      align="center"
-      :total-rows="paginationDetails.totalItems"
-      :per-page="paginationDetails.perPage"
-      @input ="updatePage(paginationDetails.currentPage)"
-    >
-    </b-pagination>
 </div>
 </template>
 
 <script>
+import SimpleModal from "@/components/modals/SimpleModal.vue";
 import { mapActions, mapState } from 'vuex'
-import QuoteLeft from '@/components/QuoteLeft.vue'
-import QuoteRight from '@/components/QuoteRight.vue'
 
 export default {
-  components: {
-    QuoteLeft,
-    QuoteRight
-  },
   data() {
     return {
       loading: true,
@@ -60,24 +63,41 @@ export default {
   methods: {
     ...mapActions([
       'refreshQuotes',
-      'refreshQuotesPaginated'
+      'loadmoreQuotes'
     ]),
-    chunk: function(arr, size) {
-      var newArr = []
-      for (var i = 0; i < arr.length; i += size) {
-        newArr.push(arr.slice(i, i + size))
-      }
-      this.groupedItems = newArr
-      console.log(newArr)
+    chunk: function() {
+
+      this.groupedItems = this.allQuotes
+      console.log(this.groupedItems)
     },
-    updatePage: function(page){
+    openEnd () {
+      document.querySelector('ion-menu-controller').open('end')
+    },
+    closeEnd () {
+      document.querySelector('ion-menu-controller').close('end')
+    },
+    async openModal() {
+        let modal = await this.$ionic.modalController.create({
+          component: SimpleModal,
+          componentProps: {  }
+        });
+        // show the modal
+        await modal.present();
+        // wait to see if i get a response
+        let {
+          data: { success, noteInfo }
+        } = await modal.onDidDismiss();
+      },
+    updatePage(event){
       this.loading=true
-      this.refreshQuotesPaginated(page)
+      this.loadmoreQuotes(this.paginationDetails.currentLoaded)
       .then(() => {
-        this.chunk(this.allQuotes, 2) // 3 is the number of colums
+        this.chunk()
         this.loading=false
       })
-      // this.$store.dispatch('updatePage', page); console.log("Hit me")
+      if (!this.loading) {
+        event.target.complete();
+      }
     },
     forceRerender() {
       this.componentKey += 1;
@@ -90,12 +110,10 @@ export default {
     ])
   },
   created: function () {
-    // divide into n groups
-    // this.chunk(this.refreshQuotes, Math.ceil(this.refreshQuotes.length / 3)) // 3 is the number of colums
-    // this.refreshQuotes()
-    this.refreshQuotesPaginated(this.paginationDetails.currentPage)
+    this.loading=true
+    this.loadmoreQuotes(this.paginationDetails.currentLoaded)
     .then(() => {
-      this.chunk(this.allQuotes, 2) // 3 is the number of colums
+      this.chunk()
       this.loading=false
     })
   }

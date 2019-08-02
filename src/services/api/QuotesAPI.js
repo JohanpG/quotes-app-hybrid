@@ -36,6 +36,15 @@ export default {
     })
   },
 
+  getMoreQuotes(current){
+    let url = process.env.VUE_APP_API_ENDPOINT + '/quotes'+'/'+current+':current'+'/10:limit'
+    return axios.get(url)
+    .then(response => {
+      // I can do some logic that concerns only the API Here and retiurn the promise
+      return response.data
+    })
+  },
+
   getDailyQuote(){
     let url = process.env.VUE_APP_API_ENDPOINT + '/dailyQuote'
     return axios.get(url)

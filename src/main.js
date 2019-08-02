@@ -8,7 +8,7 @@ import SocialSharing from 'vue-social-sharing'
 
 import Ionic from '@ionic/vue';
 import '@ionic/core/css/ionic.bundle.css';
-import 'bootstrap/dist/css/bootstrap.css'
+//import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 
 Vue.use(Ionic);

@@ -16,6 +16,16 @@ export default {
     console.log(state.paginationDetails);
 
   },
+  getQuotesSlice: (state, response) => {
+    state.allQuotes.push(response.data);
+    state.paginationDetails.current = response.current;
+    state.paginationDetails.perPage = response.limit;
+    state.paginationDetails.totalItems = response.totalItems;
+    console.log("Mutations");
+    console.log(state.allQuotes);
+    console.log(state.paginationDetails);
+
+  },
   getDailyQuote: (state, quote) => {
     state.dailyQuote = quote
   },

@@ -7,6 +7,7 @@ export default {
   quoteByID: {},
   selectedLanguage:"Select One",
   paginationDetails: {
+    currentLoaded:0,
     currentPage: 1,
     perPage: 10,
     totalItems: 100

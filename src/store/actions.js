@@ -59,6 +59,19 @@ export default {
       //this.loading=false
     })
   },
+  loadmoreQuotes: ({ commit }, current)  => {
+    return QuotesAPI.getMoreQuotes(current)
+    .then(response =>{
+      console.log("Actionsss");
+      console.log(response);
+      commit('getQuotesSlice', response);
+    })
+    .catch(error => console.log(error))
+    .finally(() => {
+      // wheter error or not remove loading
+      //this.loading=false
+    })
+  },
   refreshQuotes2: ({ commit }) => {
     fetch(process.env.VUE_APP_API_ENDPOINT + '/quotes', {
       method: 'get'

@@ -4,6 +4,7 @@ import Quotes from './views/Quotes.vue'
 import QuotesList from './views/QuotesList.vue'
 import NewQuote from './views/NewQuote.vue'
 import Quote from './views/Quote.vue'
+import Home from './views/Home.vue'
 import Settings from './views/Settings.vue'
 import { IonicVueRouter } from '@ionic/vue';
 Vue.use(IonicVueRouter);
@@ -14,7 +15,7 @@ export default new IonicVueRouter({
     {
       path: '/',
       name: 'home',
-      component: DailyQuote
+      component: Home
 
     },
     {
