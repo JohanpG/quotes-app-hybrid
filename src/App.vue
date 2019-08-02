@@ -9,23 +9,23 @@
         </ion-header>
         <ion-content>
           <ion-list>
-            <ion-item @click="navigateHome()">
+            <ion-item @click="navigate('/')">
               <ion-icon name="home" slot="start"></ion-icon>
               <ion-label>{{ $t('home') }}</ion-label>
             </ion-item>
-            <ion-item @click="navigate()">
+            <ion-item @click="navigate('quotesList')" v-if="true" >
               <ion-icon name="person" slot="start"></ion-icon>
               <ion-label>{{ $t('profile') }}</ion-label>
             </ion-item>
-            <ion-item @click="navigateNewQuote()">
-              <ion-icon name="chatbubbles" slot="start"></ion-icon>
+            <ion-item @click="navigate('newQuote')">
+              <ion-icon name="add-circle" slot="start"></ion-icon>
               <ion-label>{{ $t('newQuote') }}</ion-label>
             </ion-item>
-            <ion-item @click="navigateQuotes()">
+            <ion-item @click="navigate('quotes')">
               <ion-icon name="chatbubbles" slot="start"></ion-icon>
               <ion-label>{{ $t('quotes') }}</ion-label>
             </ion-item>
-            <ion-item @click="navigateSettings()">
+            <ion-item @click="navigate('settings')">
               <ion-icon name="settings" slot="start"></ion-icon>
               <ion-label>{{ $t('settingsMainLabel') }}</ion-label>
             </ion-item>
@@ -69,24 +69,8 @@
       closeStart () {
         document.querySelector('ion-menu-controller').close('start')
       },
-      navigate: function() {
-        this.$router.push("about");
-        this.closeStart();
-      },
-      navigateHome: function() {
-        this.$router.push("/");
-        this.closeStart();
-      },
-      navigateNewQuote: function() {
-        this.$router.push("newQuote");
-        this.closeStart();
-      },
-      navigateQuotes: function() {
-        this.$router.push("quotes");
-        this.closeStart();
-      },
-      navigateSettings: function() {
-        this.$router.push("settings");
+      navigate: function(route) {
+        this.$router.push(route);
         this.closeStart();
       },
       changeLocale(locale) {

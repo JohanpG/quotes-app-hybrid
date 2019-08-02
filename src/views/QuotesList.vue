@@ -1,31 +1,31 @@
 <template>
 <div class="ion-page">
-  <h1>{{ $t('quotes') }}</h1>
   <ion-content
     :scrollEvents="true">
     <div class="spin" v-if="loading">
         <ion-spinner name="crescent"></ion-spinner>
     </div>
-    <div  class = "b-container" >
-      <div class = "row" v-for='(g, groupIndex) in groupedItems' :key="groupIndex" >
-        <div class = "col-md-6" v-for='(item, index) in g' :key="index">
-          <div v-if="index % 2">
-            <QuoteLeft key="item._id" v-if="!loading"
-              :quote="item"
-              :showMore= true
+    <ion-list  v-if="!loading">
+        <ion-list-header>
+          <h1>{{ $t('quotes') }}</h1>
+        </ion-list-header>
 
-            />
-          </div>
-          <div v-else>
-            <QuoteRight key="item._id" v-if="!loading"
-              :quote="item"
-              :showMore= true
-            />
-          </div>
-
-        </div>
-      </div>
-    </div>
+        <ion-item v-for='(currentQuote, groupIndex) in allQuotes' :key="groupIndex">
+          <ion-avatar slot="start">
+            <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/812449/user-blue1.jpg">
+          </ion-avatar>
+          <ion-label>
+            <div class = 'quote-to' v-show= "currentQuote.to"  >
+              <h4>A {{ currentQuote.to }}</h4>
+            </div>
+              <p>{{ currentQuote.quote }} ... </p>
+            <div class = 'quote-author'>
+              <h4>- {{ currentQuote.author }}</h4>
+              <h5>  {{ currentQuote.date }}</h5>
+            </div>
+          </ion-label>
+        </ion-item>
+      </ion-list>
   </ion-content>
   <br>
   <b-pagination

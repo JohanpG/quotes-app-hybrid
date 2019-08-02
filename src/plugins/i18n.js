@@ -24,7 +24,7 @@ const messages = {
         to:'To name:',
         toEmpty:'Enter To Name',
         quote:'Quote:',
-        quoteEmpty:'Enter To Name',
+        quoteEmpty:'Enter quote',
         quoteDate:"Quote's Date:",
         quoteDateEmpty: "Enter Quote's Date",
         submit:'Submit',
@@ -35,7 +35,9 @@ const messages = {
         seeMore:"See More",
         settingsMainLabel:"Settings",
         settingsGeneralLabel:"General",
-        language:"Language"
+        language:"Language",
+        success:"Success",
+        successMessage:"Creation successfull."
     },
     'es': {
         welcomeMsg: 'Bienvenido a tu aplicación Vue.js',
@@ -68,7 +70,9 @@ const messages = {
         seeMore:"Ver Mas",
         settingsMainLabel:"Ajustes",
         settingsGeneralLabel:"Generales",
-        language:"Lenguaje"
+        language:"Lenguaje",
+        success:"Exito",
+        successMessage:"Creacion Exitosa."
     }
 };
 

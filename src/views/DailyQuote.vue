@@ -1,8 +1,9 @@
 <template>
 <div class="ion-page">
-    <!-- Crescent -->
-    <ion-spinner name="crescent" v-if="loading"></ion-spinner>
-    <ion-card>
+    <div class="spin" v-if="loading">
+        <ion-spinner name="crescent"></ion-spinner>
+    </div>
+    <ion-card v-if="!loading">
         <ion-card-header>
           <ion-card-title>{{ $t('today') }} : <h1>{{dailyQuote.validDate}}</h1></ion-card-title>
           <ion-card-subtitle><h1>{{ $t('quoteOfTheDay') }} :</h1> </ion-card-subtitle>

@@ -1,6 +1,7 @@
 import Vue from 'vue';
 import DailyQuote from './views/DailyQuote.vue'
 import Quotes from './views/Quotes.vue'
+import QuotesList from './views/QuotesList.vue'
 import NewQuote from './views/NewQuote.vue'
 import Quote from './views/Quote.vue'
 import Settings from './views/Settings.vue'
@@ -39,6 +40,11 @@ export default new IonicVueRouter({
       path: '/quotes',
       name: 'quotes',
       component: Quotes
+    },
+    {
+      path: '/quotesList',
+      name: 'quotesList',
+      component: QuotesList
     },
     {
       path: '/quotes/:id',
