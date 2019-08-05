@@ -1,23 +1,27 @@
 <template>
 <div class="ion-page">
+  <ion-item slot="end" @click="openModal" color="light">
+    <ion-icon name="funnel"></ion-icon>
+    <ion-label>Filters</ion-label>
+  </ion-item>
   <h1>{{ $t('quotes') }}</h1>
   <ion-content
     :scrollEvents="true">
     <div class="spin" v-if="loading">
         <ion-spinner name="crescent"></ion-spinner>
     </div>
-    <div  class = "b-container" >
-      <div class = "row" v-for='(g, groupIndex) in groupedItems' :key="groupIndex" >
+    <div  class = "b-container" v-if="groupedItems">
+      <div class = "row"  v-for='(g, groupIndex) in groupedItems' :key="groupIndex" >
         <div class = "col-md-6" v-for='(item, index) in g' :key="index">
           <div v-if="index % 2">
-            <QuoteLeft key="item._id" v-if="!loading"
+            <QuoteLeft key="item._id"
               :quote="item"
               :showMore= true
 
             />
           </div>
           <div v-else>
-            <QuoteRight key="item._id" v-if="!loading"
+            <QuoteRight key="item._id"
               :quote="item"
               :showMore= true
             />
@@ -26,21 +30,18 @@
         </div>
       </div>
     </div>
+    <ion-infinite-scroll @ionInfinite="updatePage" threshold="100px" position="bottom">
+      <ion-infinite-scroll-content>
+        <ion-spinner name="crescent" v-if="loading"></ion-spinner>
+      </ion-infinite-scroll-content>
+    </ion-infinite-scroll>
   </ion-content>
-  <br>
-  <b-pagination
-      v-model="paginationDetails.currentPage"
-      align="center"
-      :total-rows="paginationDetails.totalItems"
-      :per-page="paginationDetails.perPage"
-      @input ="updatePage(paginationDetails.currentPage)"
-    >
-    </b-pagination>
 </div>
 </template>
 
 <script>
 import { mapActions, mapState } from 'vuex'
+import ModalFilters from "@/components/modals/ModalFilters.vue";
 import QuoteLeft from '@/components/QuoteLeft.vue'
 import QuoteRight from '@/components/QuoteRight.vue'
 
@@ -54,13 +55,14 @@ export default {
       loading: true,
       groupedItems: [],
       componentKey: 0,
+      sortby:"Newest",
     }
 
   },
   methods: {
     ...mapActions([
       'refreshQuotes',
-      'refreshQuotesPaginated'
+      'loadmoreQuotes'
     ]),
     chunk: function(arr, size) {
       var newArr = []
@@ -70,14 +72,49 @@ export default {
       this.groupedItems = newArr
       console.log(newArr)
     },
-    updatePage: function(page){
+    async openModal() {
+        let modal = await this.$ionic.modalController.create({
+          component: ModalFilters,
+          componentProps: {
+            propsData: {
+              sortBy: this.sortby
+            }
+          }
+        });
+        // show the modal
+        await modal.present();
+        // wait to see if i get a response
+        let {
+          data: { success, sortbySelection }
+        } = await modal.onDidDismiss();
+        if (success && sortbySelection!=this.sortby) {
+          this.sortby = sortbySelection;
+          const payload = {
+            current: 0,
+            sortby: this.sortby
+
+          }
+          this.$store.state.allQuotes=[]
+          this.groupedItems=[]
+          this.loadmoreQuotes(payload)
+          .then(() => {
+            this.loading=false
+          })
+        }
+      },
+    updatePage: function(event){
       this.loading=true
-      this.refreshQuotesPaginated(page)
+      const payload = {
+        current: this.paginationDetails.currentLoaded,
+        sortby: this.sortby
+
+      }
+      this.loadmoreQuotes(payload)
       .then(() => {
         this.chunk(this.allQuotes, 2) // 3 is the number of colums
         this.loading=false
       })
-      // this.$store.dispatch('updatePage', page); console.log("Hit me")
+      event.target.complete();
     },
     forceRerender() {
       this.componentKey += 1;
@@ -90,14 +127,24 @@ export default {
     ])
   },
   created: function () {
-    // divide into n groups
-    // this.chunk(this.refreshQuotes, Math.ceil(this.refreshQuotes.length / 3)) // 3 is the number of colums
-    // this.refreshQuotes()
-    this.refreshQuotesPaginated(this.paginationDetails.currentPage)
-    .then(() => {
-      this.chunk(this.allQuotes, 2) // 3 is the number of colums
-      this.loading=false
-    })
-  }
+      if(this.groupedItems.length <1)
+      {
+        this.loading=true
+        const payload = {
+          current: this.paginationDetails.currentLoaded,
+          sortby: this.sortby
+
+        }
+        this.loadmoreQuotes(payload)
+        .then(() => {
+          this.chunk(this.allQuotes, 2) // 3 is the number of colums
+          this.loading=false
+        })
+      }
+      else
+      {
+        this.loading=false
+      }
+    }
 }
 </script>

@@ -2,8 +2,8 @@
   <ion-app>
     <menu-left/>
     <div class="ion-page" main>
-      <ion-header>
-        <ion-toolbar>
+      <ion-header >
+        <ion-toolbar  >
           <ion-buttons slot="start">
             <ion-menu-button></ion-menu-button>
           </ion-buttons>
@@ -280,4 +280,7 @@ transform: scale(1.25, 1.25);
     stroke: #444;
     fill: #222;
  }
+
+
+
 </style>

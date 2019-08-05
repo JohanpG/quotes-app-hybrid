@@ -1,6 +1,6 @@
 <template>
 <div class="ion-page">
-  <ion-item slot="end" @click="openModal">
+  <ion-item slot="end" @click="openModal" color="light">
     <ion-icon name="funnel"></ion-icon>
     <ion-label>Filters</ion-label>
   </ion-item>
@@ -31,7 +31,7 @@
                 <h1>{{ $t('quotes') }}</h1>
               </ion-list-header>
 
-              <ion-item v-for='(currentQuote, groupIndex) in allQuotes' :key="currentQuote._id" @click="redirectToId(currentQuote._id)">
+              <ion-item v-for='(currentQuote, groupIndex) in allQuotes' :key="groupIndex" @click="redirectToId(currentQuote._id)">
                 <ion-avatar slot="start">
                   <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/812449/user-blue1.jpg">
                 </ion-avatar>
@@ -51,7 +51,9 @@
         </ion-row>
       </ion-grid>
       <ion-infinite-scroll @ionInfinite="updatePage" threshold="100px" position="bottom">
-        <ion-infinite-scroll-content></ion-infinite-scroll-content>
+        <ion-infinite-scroll-content>
+          <ion-spinner name="crescent" v-if="loading"></ion-spinner>
+        </ion-infinite-scroll-content>
       </ion-infinite-scroll>
   </ion-content>
 </div>
@@ -59,7 +61,6 @@
 
 <script>
 import ModalFilters from "@/components/modals/ModalFilters.vue";
-import SimpleModal from "@/components/modals/ModalFilters.vue";
 import Popover from "@/components/popovers/Popover.vue";
 import { mapActions, mapState } from 'vuex'
 
@@ -83,16 +84,14 @@ export default {
       this.groupedItems = this.allQuotes
       console.log(this.groupedItems)
     },
-    openEnd () {
-      document.querySelector('ion-menu-controller').open('end')
-    },
-    closeEnd () {
-      document.querySelector('ion-menu-controller').close('end')
-    },
     async openModal() {
         let modal = await this.$ionic.modalController.create({
           component: ModalFilters,
-          componentProps: {  }
+          componentProps: {
+            propsData: {
+              sortBy: this.sortby
+            }
+          }
         });
         // show the modal
         await modal.present();

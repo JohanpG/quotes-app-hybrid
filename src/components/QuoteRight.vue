@@ -9,7 +9,7 @@
         <div class = 'quote-author'>
           <p>- {{ quote.author }}</p>
           <p> {{ quote.date }}</p>
-          <b-button variant="outline-success" size="sm" v-if="showMore" v-on:click="redirectToId">{{ $t('seeMore') }}</b-button>
+          <ion-button size="small" color="primary" v-if="showMore" @click="redirectToId">{{ $t('seeMore') }}</ion-button>
         </div>
       </div>
       <div class = 'quote-circle'>
