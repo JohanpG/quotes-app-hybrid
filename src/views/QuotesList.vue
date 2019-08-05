@@ -1,27 +1,37 @@
 <template>
 <div class="ion-page">
+  <ion-item slot="end" @click="openModal">
+    <ion-icon name="funnel"></ion-icon>
+    <ion-label>Filters</ion-label>
+  </ion-item>
+
   <ion-content
     :scrollEvents="true">
     <div class="spin" v-if="loading">
         <ion-spinner name="crescent"></ion-spinner>
     </div>
     <ion-grid>
-        <ion-row>
-          <ion-col size="12" size-md>
-            <ion-button
-              expand="block"
-              @click="openModal"
-              >Modal</ion-button>
+        <ion-row v-if="false">
+          <ion-col size="8" size-md>
+            <ion-item>
+            </ion-item>
+          </ion-col>
+          <ion-col size="4" size-md @click="openModal">
+            <ion-item>
+              <ion-icon name="funnel"></ion-icon>
+              <ion-label>Filters</ion-label>
+            </ion-item>
           </ion-col>
       </ion-row>
+
       <ion-row>
         <ion-col size="12" size-md>
-          <ion-list  v-if="!loading">
+          <ion-list  >
               <ion-list-header>
                 <h1>{{ $t('quotes') }}</h1>
               </ion-list-header>
 
-              <ion-item v-for='(currentQuote, groupIndex) in groupedItems' :key="currentQuote._id">
+              <ion-item v-for='(currentQuote, groupIndex) in allQuotes' :key="currentQuote._id" @click="redirectToId(currentQuote._id)">
                 <ion-avatar slot="start">
                   <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/812449/user-blue1.jpg">
                 </ion-avatar>
@@ -48,7 +58,9 @@
 </template>
 
 <script>
-import SimpleModal from "@/components/modals/SimpleModal.vue";
+import ModalFilters from "@/components/modals/ModalFilters.vue";
+import SimpleModal from "@/components/modals/ModalFilters.vue";
+import Popover from "@/components/popovers/Popover.vue";
 import { mapActions, mapState } from 'vuex'
 
 export default {
@@ -57,6 +69,7 @@ export default {
       loading: true,
       groupedItems: [],
       componentKey: 0,
+      sortby:"Newest",
     }
 
   },
@@ -78,27 +91,57 @@ export default {
     },
     async openModal() {
         let modal = await this.$ionic.modalController.create({
-          component: SimpleModal,
+          component: ModalFilters,
           componentProps: {  }
         });
         // show the modal
         await modal.present();
         // wait to see if i get a response
         let {
-          data: { success, noteInfo }
+          data: { success, sortbySelection }
         } = await modal.onDidDismiss();
+        if (success && sortbySelection!=this.sortby) {
+          this.sortby = sortbySelection;
+          const payload = {
+            current: 0,
+            sortby: this.sortby
+
+          }
+          this.$store.state.allQuotes=[]
+          this.loadmoreQuotes(payload)
+          .then(() => {
+            this.loading=false
+          })
+        }
       },
+      async openPopover(ev) {
+          let popover = await this.$ionic.popoverController.create({
+            component: Popover,
+            event: ev,
+            translucent: true
+          });
+          // show the modal
+          await popover.present();
+        },
     updatePage(event){
       this.loading=true
-      this.loadmoreQuotes(this.paginationDetails.currentLoaded)
+      const payload = {
+        current: this.paginationDetails.currentLoaded,
+        sortby: this.sortby
+
+      }
+      this.loadmoreQuotes(payload)
       .then(() => {
-        this.chunk()
         this.loading=false
       })
-      if (!this.loading) {
-        event.target.complete();
-      }
+      event.target.complete();
     },
+    redirectToId (quoteId) {
+       this.$router.push(
+          {
+            path: '/quotes/' + quoteId
+          })
+        },
     forceRerender() {
       this.componentKey += 1;
     }
@@ -110,12 +153,23 @@ export default {
     ])
   },
   created: function () {
-    this.loading=true
-    this.loadmoreQuotes(this.paginationDetails.currentLoaded)
-    .then(() => {
-      this.chunk()
+    if(this.allQuotes.length <1)
+    {
+      this.loading=true
+      const payload = {
+        current: this.paginationDetails.currentLoaded,
+        sortby: this.sortby
+
+      }
+      this.loadmoreQuotes(payload)
+      .then(() => {
+        this.loading=false
+      })
+    }
+    else
+    {
       this.loading=false
-    })
+    }
   }
 }
 </script>

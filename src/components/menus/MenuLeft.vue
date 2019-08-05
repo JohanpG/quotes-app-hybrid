@@ -11,19 +11,19 @@
           <ion-icon name="home" slot="start"></ion-icon>
           <ion-label>{{ $t('home') }}</ion-label>
         </ion-item>
-        <ion-item @click="navigate('quotesList')" v-if="true" >
+        <ion-item @click="navigate('/quotesList')" v-if="true" >
           <ion-icon name="person" slot="start"></ion-icon>
           <ion-label>{{ $t('profile') }}</ion-label>
         </ion-item>
-        <ion-item @click="navigate('newQuote')">
+        <ion-item @click="navigate('/newQuote')">
           <ion-icon name="add-circle" slot="start"></ion-icon>
           <ion-label>{{ $t('newQuote') }}</ion-label>
         </ion-item>
-        <ion-item @click="navigate('quotes')">
+        <ion-item @click="navigate('/quotes')">
           <ion-icon name="chatbubbles" slot="start"></ion-icon>
           <ion-label>{{ $t('quotes') }}</ion-label>
         </ion-item>
-        <ion-item @click="navigate('settings')">
+        <ion-item @click="navigate('/settings')">
           <ion-icon name="settings" slot="start"></ion-icon>
           <ion-label>{{ $t('settingsMainLabel') }}</ion-label>
         </ion-item>

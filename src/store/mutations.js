@@ -17,8 +17,12 @@ export default {
 
   },
   getQuotesSlice: (state, response) => {
-    state.allQuotes.push(response.data);
-    state.paginationDetails.current = response.current;
+    state.allQuotes = state.allQuotes.concat(response.data);
+    //state.allQuotes.push(response.data[0]);
+    //response.data.forEach(function(element) {
+    //  state.allQuotes.push(element);
+    //});
+    state.paginationDetails.currentLoaded = response.current +  response.limit;
     state.paginationDetails.perPage = response.limit;
     state.paginationDetails.totalItems = response.totalItems;
     console.log("Mutations");

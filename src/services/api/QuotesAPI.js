@@ -36,8 +36,8 @@ export default {
     })
   },
 
-  getMoreQuotes(current){
-    let url = process.env.VUE_APP_API_ENDPOINT + '/quotes'+'/'+current+':current'+'/10:limit'
+  getMoreQuotes(current,sortby){
+    let url = process.env.VUE_APP_API_ENDPOINT + '/quotes'+'/'+current+'/10/'+sortby
     return axios.get(url)
     .then(response => {
       // I can do some logic that concerns only the API Here and retiurn the promise

@@ -37,7 +37,9 @@ const messages = {
         settingsGeneralLabel:"General",
         language:"Language",
         success:"Success",
-        successMessage:"Creation successfull."
+        successMessage:"Creation successfull.",
+        filterModalLabel:"Filter by:",
+        filterModalSortBy:"Sort by"
     },
     'es': {
         welcomeMsg: 'Bienvenido a tu aplicación Vue.js',
@@ -72,7 +74,9 @@ const messages = {
         settingsGeneralLabel:"Generales",
         language:"Lenguaje",
         success:"Exito",
-        successMessage:"Creacion Exitosa."
+        successMessage:"Creacion Exitosa.",
+        filterModalLabel:"Filtrar por:",
+        filterModalSortBy:"Ordenar por"
     }
 };
 

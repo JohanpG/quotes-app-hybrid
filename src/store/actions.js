@@ -59,8 +59,10 @@ export default {
       //this.loading=false
     })
   },
-  loadmoreQuotes: ({ commit }, current)  => {
-    return QuotesAPI.getMoreQuotes(current)
+  loadmoreQuotes: ({ commit }, payload)  => {
+    console.log("Parameters");
+    console.log(payload);
+    return QuotesAPI.getMoreQuotes(payload.current,payload.sortby)
     .then(response =>{
       console.log("Actionsss");
       console.log(response);
