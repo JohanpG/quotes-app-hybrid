@@ -12,9 +12,9 @@
     </div>
     <ion-grid v-if="groupedItems">
       <ion-row   v-for='(g, groupIndex) in groupedItems' :key="groupIndex">
-        <ion-col v-for='(item, index) in g' :key="index" col-12 col-xl-4 col-lg-5 col-md-6>
+        <ion-col v-for='(item, index) in g' :key="index" col-12 col-xl-6 col-lg-6 col-md-6>
 
-
+            <ion-card>
               <div v-if="index % 2">
                 <QuoteLeft key="item._id"
                   :quote="item"
@@ -29,7 +29,7 @@
                 />
               </div>
 
-
+              </ion-card>
           </ion-col>
        </ion-row>
    </ion-grid>
