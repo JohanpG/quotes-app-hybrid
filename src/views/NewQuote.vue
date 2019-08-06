@@ -72,7 +72,7 @@
 
 <script>
 import i18n from '@/plugins/i18n'
-import { mapActions,mapState, mapGetters } from 'vuex'
+import { mapActions,mapState } from 'vuex'
 
 export default {
   name: 'admin',

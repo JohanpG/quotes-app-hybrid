@@ -129,7 +129,7 @@ export default {
       console.log("entroo");
       console.log(quote);
 
-      document.getElementById(quote._id).src = baseUrl+'/NoAuthor.jpg';
+      document.getElementById(quote._id).src = this.baseUrl+'/NoAuthor.jpg';
 
     },
     updatePage(event){

@@ -40,7 +40,9 @@ data() {
   },
   props: {
     quote: Object,
-    showMore: false
+    showMore: {
+      type: String
+    },
   }
 }
 </script>

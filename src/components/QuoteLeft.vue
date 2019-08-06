@@ -31,10 +31,9 @@ data() {
 
 },
 filters: {
-
-  	trim: function(string) {
-    	return string.replace(/ /g,'')
-        }
+  trim: function(string) {
+    return string.replace(/ /g,'')
+    }
 
   },
   methods: {
@@ -47,7 +46,9 @@ filters: {
     },
   props: {
     quote: Object,
-    showMore: false
+    showMore: {
+      type: String
+    }
   }
 }
 
