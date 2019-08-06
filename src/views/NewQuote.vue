@@ -9,7 +9,22 @@
     <ion-content>
       <form @submit.prevent="handleSubmit">
       <ion-list lines="full" class="ion-no-margin ion-no-padding">
+
           <ion-item>
+              <ion-label position="stacked">{{ $t('authorName') }}<ion-text color="danger">*</ion-text></ion-label>
+              <ion-select required  v-bind:placeholder="$t('authorNameEmpty')" @ionChange="onChangeAuthor($event)">
+                <ion-select-option v-for='(currentAuthor, authorIndex) in allAuthors' :key="authorIndex" :value="currentAuthor.authorName" >{{currentAuthor.authorName}}</ion-select-option>
+              </ion-select>
+          </ion-item>
+
+          <ion-item>
+              <ion-label position="stacked">{{ $t('to') }}<ion-text color="danger">*</ion-text></ion-label>
+              <ion-select required  v-bind:placeholder="$t('toEmpty')" @ionChange="onChangeTo($event)">
+                <ion-select-option v-for='(currentAuthor, authorIndex) in allAuthors' :key="authorIndex" :value="currentAuthor.authorName" >{{currentAuthor.authorName}}</ion-select-option>
+              </ion-select>
+          </ion-item>
+
+          <ion-item v-if="false">
             <ion-label position="stacked">{{ $t('authorName') }}<ion-text color="danger">*</ion-text></ion-label>
             <ion-input
             v-bind:placeholder="$t('authorNameEmpty')"
@@ -18,7 +33,7 @@
              required type="text" ></ion-input>
           </ion-item>
 
-          <ion-item>
+          <ion-item v-if="false">
             <ion-label position="stacked">{{ $t('to') }}<ion-text color="danger">*</ion-text></ion-label>
             <ion-input
             v-bind:placeholder="$t('toEmpty')"
@@ -57,7 +72,7 @@
 
 <script>
 import i18n from '@/plugins/i18n'
-import { mapActions, mapGetters } from 'vuex'
+import { mapActions,mapState, mapGetters } from 'vuex'
 
 export default {
   name: 'admin',
@@ -72,13 +87,14 @@ export default {
     }
   },
   computed: {
-    ...mapGetters([
-      'getAllQuotes'
+    ...mapState([
+      'allAuthors'
     ])
   },
   methods: {
     ...mapActions([
-      'addQuote'
+      'addQuote',
+      'refreshAuthors'
     ]),
     handleSubmit(event) {
       console.log(event);
@@ -107,10 +123,32 @@ export default {
           buttons: ["OK"]
         })
         .then(a => a.present());
+      },
+      onChangeAuthor($event){
+        console.log($event);
+        console.log($event.target.value);
+        this.formData.author = $event.target.value;
+      },
+      onChangeTo($event){
+        console.log($event);
+        console.log($event.target.value);
+        this.formData.to = $event.target.value;
       }
 
   },
   created: function () {
+    if(this.allAuthors.length <1)
+    {
+      this.loading=true
+      this.refreshAuthors()
+      .then(() => {
+        this.loading=false
+      })
+    }
+    else
+    {
+      this.loading=false
+    }
   }
 }
 </script>

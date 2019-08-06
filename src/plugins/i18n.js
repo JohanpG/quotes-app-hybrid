@@ -39,6 +39,7 @@ const messages = {
         language:"Language",
         success:"Success",
         successMessage:"Creation successfull.",
+        filterButtonLabel:"Filters",
         filterModalLabel:"Filter by:",
         filterModalSortBy:"Sort by"
     },
@@ -77,6 +78,7 @@ const messages = {
         language:"Lenguaje",
         success:"Exito",
         successMessage:"Creacion Exitosa.",
+        filterButtonLabel:"Filtros",
         filterModalLabel:"Filtrar por:",
         filterModalSortBy:"Ordenar por"
     }

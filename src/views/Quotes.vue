@@ -2,7 +2,7 @@
 <div class="ion-page">
   <ion-item slot="end" @click="openModal" color="light">
     <ion-icon name="funnel"></ion-icon>
-    <ion-label>Filters</ion-label>
+    <ion-label>{{ $t('filterButtonLabel') }}</ion-label>
   </ion-item>
   <h1>{{ $t('quotes') }}</h1>
   <ion-content
@@ -56,6 +56,7 @@ export default {
       groupedItems: [],
       componentKey: 0,
       sortby:"Newest",
+      selectedAuthor:"",
     }
 
   },
@@ -77,7 +78,8 @@ export default {
           component: ModalFilters,
           componentProps: {
             propsData: {
-              sortBy: this.sortby
+              sortBy: this.sortby,
+              author: this.selectedAuthor
             }
           }
         });
@@ -98,6 +100,7 @@ export default {
           this.groupedItems=[]
           this.loadmoreQuotes(payload)
           .then(() => {
+            this.chunk(this.allQuotes, 2) // 3 is the number of colums
             this.loading=false
           })
         }

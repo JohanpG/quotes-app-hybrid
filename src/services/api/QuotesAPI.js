@@ -11,6 +11,14 @@ export default {
       return response.data
     })
   },
+  getAuthors(){
+    let url = process.env.VUE_APP_API_ENDPOINT + '/authors'
+    return axios.get(url)
+    .then(response => {
+      // I can do some logic that concerns only the API Here and retiurn the promise
+      return response.data
+    })
+  },
   getQuotes(){
     let url = process.env.VUE_APP_API_ENDPOINT + '/quotes'
     return axios.get(url)

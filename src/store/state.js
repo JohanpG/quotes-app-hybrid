@@ -2,6 +2,7 @@
 // import dogs from '../data/dogs'
 
 export default {
+  allAuthors: [],
   allQuotes: [],
   dailyQuote: {},
   quoteByID: {},

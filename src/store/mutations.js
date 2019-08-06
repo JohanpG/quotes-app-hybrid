@@ -2,6 +2,9 @@ export default {
   appendPet: (state, { species, pet }) => {
     state[species].push(pet)
   },
+  getAuthors: (state, authors) => {
+    state.allAuthors= authors
+  },
   getQuotes: (state, quotes) => {
     state.allQuotes = quotes
   },

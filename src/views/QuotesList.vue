@@ -2,7 +2,7 @@
 <div class="ion-page">
   <ion-item slot="end" @click="openModal" color="light">
     <ion-icon name="funnel"></ion-icon>
-    <ion-label>Filters</ion-label>
+    <ion-label>{{ $t('filterButtonLabel') }}</ion-label>
   </ion-item>
 
   <ion-content
@@ -19,7 +19,7 @@
           <ion-col size="4" size-md @click="openModal">
             <ion-item>
               <ion-icon name="funnel"></ion-icon>
-              <ion-label>Filters</ion-label>
+              <ion-label>{{ $t('filterButtonLabel') }}</ion-label>
             </ion-item>
           </ion-col>
       </ion-row>
@@ -33,7 +33,7 @@
 
               <ion-item v-for='(currentQuote, groupIndex) in allQuotes' :key="groupIndex" @click="redirectToId(currentQuote._id)">
                 <ion-avatar slot="start">
-                  <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/812449/user-blue1.jpg">
+                  <img :src="`${baseUrl}${currentQuote.author}.jpg`"  onerror="this.src = 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png'"   :id="currentQuote._id" />
                 </ion-avatar>
                 <ion-label>
                   <div class = 'quote-to' v-show= "currentQuote.to"  >
@@ -71,6 +71,8 @@ export default {
       groupedItems: [],
       componentKey: 0,
       sortby:"Newest",
+      selectedAuthor:"",
+      baseUrl: process.env.BASE_URL,
     }
 
   },
@@ -89,7 +91,8 @@ export default {
           component: ModalFilters,
           componentProps: {
             propsData: {
-              sortBy: this.sortby
+              sortBy: this.sortby,
+              author: this.selectedAuthor
             }
           }
         });
@@ -122,6 +125,13 @@ export default {
           // show the modal
           await popover.present();
         },
+    loadImage(quote){
+      console.log("entroo");
+      console.log(quote);
+
+      document.getElementById(quote._id).src = baseUrl+'/NoAuthor.jpg';
+
+    },
     updatePage(event){
       this.loading=true
       const payload = {

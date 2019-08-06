@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class = 'quote-left' v-on:dblclick="redirectToId">
-      <div class = 'quote-image'></div>
+      <div class = 'quote-image'  :style="{ backgroundImage: `url(${baseUrl}${quote.author.replace(/ /g,'')}.jpg),url(${baseUrl}NoAuthor.jpg)` }"  ></div>
       <div class = 'quote-circle'>
         <div class = 'quote-circle-inner'>
           <i class="fa fa-quote-left"></i>
@@ -24,6 +24,19 @@
 
 <script>
 export default {
+data() {
+  return {
+    baseUrl: process.env.BASE_URL,
+  }
+
+},
+filters: {
+
+  	trim: function(string) {
+    	return string.replace(/ /g,'')
+        }
+
+  },
   methods: {
     redirectToId () {
        this.$router.push(

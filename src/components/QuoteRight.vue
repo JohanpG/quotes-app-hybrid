@@ -17,13 +17,19 @@
           <i class="fa fa-quote-right"></i>
         </div>
       </div>
-    <div class = 'quote-image'></div>
+    <div class = 'quote-image' :style="{ backgroundImage: `url(${baseUrl}${quote.author.replace(/ /g,'')}.jpg),url(${baseUrl}NoAuthor.jpg)` }"></div>
     </div>
   </div>
 </template>
 
 <script>
 export default {
+data() {
+  return {
+    baseUrl: process.env.BASE_URL,
+  }
+
+},
   methods: {
   redirectToId () {
      this.$router.push(

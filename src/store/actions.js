@@ -23,6 +23,18 @@ export default {
         // console.log('Success:', response)
       )
   },
+  refreshAuthors: ({ commit })  => {
+    return QuotesAPI.getAuthors()
+    .then(authors =>{
+      console.log(authors)
+      commit('getAuthors', authors)
+    })
+    .catch(error => console.log(error))
+    .finally(() => {
+      // wheter error or not remove loading
+      //this.loading=false
+    })
+  },
   refreshQuotes: ({ commit })  => {
     return QuotesAPI.getQuotes()
     .then(quotes =>{
