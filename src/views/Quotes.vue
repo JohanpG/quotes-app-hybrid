@@ -1,35 +1,38 @@
 <template>
 <div class="ion-page">
+  <h1>{{ $t('quotes') }}</h1>
   <ion-item slot="end" @click="openModal" color="light">
     <ion-icon name="funnel"></ion-icon>
     <ion-label>{{ $t('filterButtonLabel') }}</ion-label>
   </ion-item>
-  <h1>{{ $t('quotes') }}</h1>
   <ion-content
     :scrollEvents="true">
     <div class="spin" v-if="loading">
         <ion-spinner name="crescent"></ion-spinner>
     </div>
-    <div  class = "b-container" v-if="groupedItems">
-      <div class = "row"  v-for='(g, groupIndex) in groupedItems' :key="groupIndex" >
-        <div class = "col-md-6" v-for='(item, index) in g' :key="index">
-          <div v-if="index % 2">
-            <QuoteLeft key="item._id"
-              :quote="item"
-              :showMore= true
+    <ion-grid v-if="groupedItems">
+      <ion-row   v-for='(g, groupIndex) in groupedItems' :key="groupIndex">
+        <ion-col v-for='(item, index) in g' :key="index" col-12 col-xl-4 col-lg-5 col-md-6>
 
-            />
-          </div>
-          <div v-else>
-            <QuoteRight key="item._id"
-              :quote="item"
-              :showMore= true
-            />
-          </div>
 
-        </div>
-      </div>
-    </div>
+              <div v-if="index % 2">
+                <QuoteLeft key="item._id"
+                  :quote="item"
+                  :showMore= true
+
+                />
+              </div>
+              <div v-else>
+                <QuoteRight key="item._id"
+                  :quote="item"
+                  :showMore= true
+                />
+              </div>
+
+
+          </ion-col>
+       </ion-row>
+   </ion-grid>
     <ion-infinite-scroll @ionInfinite="updatePage" threshold="100px" position="bottom">
       <ion-infinite-scroll-content>
         <ion-spinner name="crescent" v-if="loading"></ion-spinner>

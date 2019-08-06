@@ -1,10 +1,10 @@
 <template>
 <div class="ion-page">
+  <h1>{{ $t('quotes') }}</h1>
   <ion-item slot="end" @click="openModal" color="light">
     <ion-icon name="funnel"></ion-icon>
     <ion-label>{{ $t('filterButtonLabel') }}</ion-label>
   </ion-item>
-
   <ion-content
     :scrollEvents="true">
     <div class="spin" v-if="loading">
@@ -25,29 +25,25 @@
       </ion-row>
 
       <ion-row>
-        <ion-col size="12" size-md>
-          <ion-list  >
-              <ion-list-header>
-                <h1>{{ $t('quotes') }}</h1>
-              </ion-list-header>
-
-              <ion-item v-for='(currentQuote, groupIndex) in allQuotes' :key="groupIndex" @click="redirectToId(currentQuote._id)">
-                <ion-avatar slot="start">
-                  <img :src="`${baseUrl}${currentQuote.author}.jpg`"  onerror="this.src = 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png'"   :id="currentQuote._id" />
-                </ion-avatar>
-                <ion-label>
-                  <div class = 'quote-to' v-show= "currentQuote.to"  >
-                    <h4>A {{ currentQuote.to }}</h4>
-                  </div>
-                    <p>{{ currentQuote.quote }} ... </p>
-                  <div class = 'quote-author'>
-                    <h4>- {{ currentQuote.author }}</h4>
-                    <h5>  {{ currentQuote.date }}</h5>
-                  </div>
-                </ion-label>
-              </ion-item>
-            </ion-list>
-          </ion-col>
+      <ion-col v-for='(currentQuote, groupIndex) in allQuotes' :key="groupIndex" col-12 col-xl-2 col-lg-3 col-md-4>
+      <ion-card>
+        <ion-item @click="redirectToId(currentQuote._id)">
+          <ion-avatar slot="start">
+            <img :src="`${baseUrl}${currentQuote.author.replace(/ /g,'')}.jpg`"  onerror="this.src = 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png'"   :id="currentQuote._id" />
+          </ion-avatar>
+          <ion-label>
+            <div class = 'quote-to' v-show= "currentQuote.to"  >
+              <h4>A {{ currentQuote.to }}</h4>
+            </div>
+              <p>{{ currentQuote.quote }} ... </p>
+            <div class = 'quote-author'>
+              <h4>- {{ currentQuote.author }}</h4>
+              <h5>  {{ currentQuote.date }}</h5>
+            </div>
+          </ion-label>
+        </ion-item>
+      </ion-card>
+     </ion-col>
         </ion-row>
       </ion-grid>
       <ion-infinite-scroll @ionInfinite="updatePage" threshold="100px" position="bottom">

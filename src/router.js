@@ -21,7 +21,7 @@ export default new IonicVueRouter({
     {
       path: '/dailyQuote',
       name: 'dailyQuote',
-      component: DailyQuote
+      component: Home
     },
     {
       path: '/about',

@@ -7,6 +7,11 @@
           <ion-buttons slot="start">
             <ion-menu-button></ion-menu-button>
           </ion-buttons>
+          <ion-thumbnail slot="start">
+            <div>
+              <img src="@/assets/quotesLogo.png" />
+            </div>
+          </ion-thumbnail>
           <ion-title>Quotes - App</ion-title>
         </ion-toolbar>
       </ion-header>
@@ -280,6 +285,7 @@ transform: scale(1.25, 1.25);
     stroke: #444;
     fill: #222;
  }
+ .logo img  {  object-fit: cover; align:center; width: 160;  height: 80px;}
 
 
 

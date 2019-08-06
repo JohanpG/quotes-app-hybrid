@@ -41,7 +41,7 @@ data() {
   props: {
     quote: Object,
     showMore: {
-      type: String
+      type: Boolean
     },
   }
 }
