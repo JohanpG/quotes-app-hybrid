@@ -25,7 +25,7 @@
       </ion-row>
 
       <ion-row>
-      <ion-col v-for='(currentQuote, groupIndex) in allQuotes' :key="groupIndex" col-12 col-xl-2 col-lg-3 col-md-4>
+      <ion-col size="12" size-xs="12" size-sm="12" size-md="3" size-xl="2" v-for='(currentQuote, groupIndex) in allQuotes' :key="groupIndex">
       <ion-card>
         <ion-item @click="redirectToId(currentQuote._id)">
           <ion-avatar slot="start">
