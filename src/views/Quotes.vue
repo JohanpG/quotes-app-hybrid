@@ -10,11 +10,11 @@
     <div class="spin" v-if="loading">
         <ion-spinner name="crescent"></ion-spinner>
     </div>
-    <ion-grid v-if="groupedItems">
-      <ion-row   v-for='(g, groupIndex) in groupedItems' :key="groupIndex">
-        <ion-col v-for='(item, index) in g' :key="index" col-12 col-xl-6 col-lg-6 col-md-6>
+    <ion-grid v-if="allQuotes">
+      <ion-row  >
+        <ion-col size="12" size-xs="12" size-sm="12" size-md="6" size-xl="4" v-for='(item, index) in allQuotes' :key="index" col-12 col-xl-6 col-lg-6 col-md-6>
 
-            <ion-card>
+            <div class="quote-container">
               <div v-if="index % 2">
                 <QuoteLeft key="item._id"
                   :quote="item"
@@ -29,7 +29,7 @@
                 />
               </div>
 
-              </ion-card>
+              </div>
           </ion-col>
        </ion-row>
    </ion-grid>
