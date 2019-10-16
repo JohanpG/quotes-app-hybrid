@@ -1,4 +1,8 @@
-# my-vue-app
+# quotes-app-hybrid
+
+## Demo
+
+App deployed to google coud app engine here http://quotes-app-vue.appspot.com/quotes
 
 ## Project setup
 ```
@@ -27,3 +31,9 @@ npm run lint
 
 ### Customize configuration
 See [Configuration Reference](https://cli.vuejs.org/config/).
+
+#### Author
+
+By: Johan Porras (JohanpG)
+
+
